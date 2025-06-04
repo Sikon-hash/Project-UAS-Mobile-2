@@ -81,9 +81,11 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(getApplicationContext(), "Login Successfully",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            // Misalnya setelah login berhasil:
+                            Intent intent = new Intent(Login.this, HomeActivity.class);
                             startActivity(intent);
-                            finish();
+                            finish(); // untuk menutup LoginActivity agar tidak bisa kembali dengan tombol back
+
                         } else {
                             Toast.makeText(Login.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();

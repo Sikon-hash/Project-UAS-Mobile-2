@@ -1,6 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Banner -->
+        <ImageView
+            android:id="@+id/bannerImage"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/banner_redbus" />
+
+        <!-- Form Pemesanan -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pesan Tiket Bus"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/etDari"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dari"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/etKe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ke"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/etTanggalPergi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tanggal Pergi"
+            android:layout_marginTop="8dp"
+            android:focusable="false"
+            android:background="@android:drawable/edit_text" />
+
+        <EditText
+            android:id="@+id/etTanggalPulang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tanggal Pulang"
+            android:layout_marginTop="8dp"
+            android:focusable="false"
+            android:background="@android:drawable/edit_text" />
+
+        <Button
+            android:id="@+id/btnCariBus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cari Bus"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#E53935"
+            android:textColor="#FFFFFF" />
+
+        <!-- Tombol Aksi -->
+        <Button
+            android:id="@+id/btnPesanSekarang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pesan Sekarang!"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FFA000"
+            android:textColor="#FFFFFF" />
+
+        <!-- Promo Diskon -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Promo Spesial"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:textColor="#000000" />
+
+        <!-- Promo 1 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardElevation="4dp"
+            android:padding="12dp">
+
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diskon 25% + Cashback 20.000\nKode: NEW"
+                android:textSize="16sp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Promo 2 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardElevation="4dp"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diskon 5% + Cashback 10.000\nKode: PAKAILAGI"
+                android:textSize="16sp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Promo 3 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
+            app:cardElevation="4dp"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diskon DAMRI Hingga 8 Juli 2025"
+                android:textSize="16sp" />
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>
