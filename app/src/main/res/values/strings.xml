@@ -8,4 +8,5 @@
     <string name="click_to_register">Click to Register</string>
     <string name="hello_world">Hello World</string>
     <string name="logout">Logout</string>
+    <string name="kursi">Kursi</string>
 </resources>

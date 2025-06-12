@@ -24,6 +24,8 @@ public class JadwalBusActivity extends AppCompatActivity {
         String dari = getIntent().getStringExtra("dari");
         String ke = getIntent().getStringExtra("ke");
         String tanggal = getIntent().getStringExtra("tanggal");
+        String kursi = getIntent().getStringExtra("kursi");
+
 
         TextView tvInfo = findViewById(R.id.tvInfo);
         tvInfo.setText("Hasil untuk: " + dari + " → " + ke + " pada " + tanggal);

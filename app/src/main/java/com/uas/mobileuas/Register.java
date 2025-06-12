@@ -36,13 +36,14 @@ public class Register extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView textView;
+    TextInputEditText etNama, etNomorHp;
 
     @Override
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
             startActivity(intent);
             finish();
         }
@@ -60,7 +61,12 @@ public class Register extends AppCompatActivity {
         buttonReg = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.loginNow);
+        etNama = findViewById(R.id.namaLengkap);
+        etNomorHp = findViewById(R.id.nomorHp);
         textView.setOnClickListener(new View.OnClickListener() {
+
+
+
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),Login.class);
@@ -78,6 +84,9 @@ public class Register extends AppCompatActivity {
                 String email, password;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
+                String nama = etNama.getText().toString().trim();
+                String nomorHp = etNomorHp.getText().toString().trim();
+
 
                 if(TextUtils.isEmpty(email)){
                     Toast.makeText(Register.this, "Enter Email", Toast.LENGTH_SHORT).show();

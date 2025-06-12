@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.content.Intent;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +17,7 @@ import java.util.Calendar;
 
 public class HomeActivity extends AppCompatActivity {
 
-    EditText etDari, etKe, etTanggalPergi, etTanggalPulang;
+    EditText etDari, etKe, etTanggalPergi, etTanggalPulang, etJumlahKursi;
     Button btnCariBus, btnPesanSekarang;
 
     @Override
@@ -27,11 +29,19 @@ public class HomeActivity extends AppCompatActivity {
         etKe = findViewById(R.id.etKe);
         etTanggalPergi = findViewById(R.id.etTanggalPergi);
         etTanggalPulang = findViewById(R.id.etTanggalPulang);
+        etJumlahKursi = findViewById(R.id.etJumlahKursi);
         btnCariBus = findViewById(R.id.btnCariBus);
         btnPesanSekarang = findViewById(R.id.btnPesanSekarang);
 
+
         etTanggalPergi.setOnClickListener(v -> showDateDialog(etTanggalPergi));
         etTanggalPulang.setOnClickListener(v -> showDateDialog(etTanggalPulang));
+
+        Button profileButton = findViewById(R.id.btnProfile);
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
 
         btnCariBus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
                 String dari = etDari.getText().toString();
                 String ke = etKe.getText().toString();
                 String tanggal = etTanggalPergi.getText().toString();
+                String kursi = etJumlahKursi.getText().toString();
 
                 if (dari.isEmpty() || ke.isEmpty() || tanggal.isEmpty()) {
                     Toast.makeText(HomeActivity.this, "Lengkapi semua data!", Toast.LENGTH_SHORT).show();
@@ -47,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
                     intent.putExtra("dari", dari);
                     intent.putExtra("ke", ke);
                     intent.putExtra("tanggal", tanggal);
+                    intent.putExtra("kursi", kursi);
                     startActivity(intent);
                 }
             }
