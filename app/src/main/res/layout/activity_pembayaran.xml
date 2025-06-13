@@ -7,25 +7,24 @@
     android:background="#FFFFFF">
 
     <TextView
-        android:id="@+id/tvInfo"
+        android:id="@+id/textViewBusDipilih"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hasil Pencarian"
+        android:text="Informasi Bus"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:layout_marginBottom="12dp" />
+        android:padding="16dp" />
 
-    <!-- activity_jadwal_bus.xml -->
-    <ListView
-        android:id="@+id/listViewBus"
+    <!-- Tambahan: Tombol lanjut ke pembayaran -->
+    <Button
+        android:id="@+id/btnLanjutBayar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerJadwal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:text="Lanjut ke Pembayaran"
+        android:textSize="16sp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

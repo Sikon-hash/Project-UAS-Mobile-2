@@ -9,17 +9,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Register extends AppCompatActivity {
 
@@ -33,7 +28,7 @@ public class Register extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             finish();
         }
@@ -76,7 +71,6 @@ public class Register extends AppCompatActivity {
                 Toast.makeText(Register.this, "Masukkan Password", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (TextUtils.isEmpty(nama) || TextUtils.isEmpty(nomorHp)) {
                 Toast.makeText(Register.this, "Isi Nama dan Nomor HP", Toast.LENGTH_SHORT).show();
                 return;
@@ -88,20 +82,19 @@ public class Register extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                // Simpan data tambahan ke Firebase Realtime Database
-                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                                 String userId = user.getUid();
-
                                 User userModel = new User(nama, nomorHp, email);
-                                ref.child(userId).setValue(userModel)
-                                        .addOnCompleteListener(task1 -> {
-                                            if (task1.isSuccessful()) {
-                                                Toast.makeText(Register.this, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                                                finish();
-                                            } else {
-                                                Toast.makeText(Register.this, "Gagal menyimpan data", Toast.LENGTH_SHORT).show();
-                                            }
+
+                                // 🔄 Simpan ke Firestore
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                db.collection("users").document(userId).set(userModel)
+                                        .addOnSuccessListener(unused -> {
+                                            Toast.makeText(Register.this, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
+                                            finish();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(Register.this, "Gagal menyimpan data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         });
                             }
                         } else {

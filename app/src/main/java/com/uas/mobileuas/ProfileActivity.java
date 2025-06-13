@@ -11,11 +11,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -23,8 +20,7 @@ public class ProfileActivity extends AppCompatActivity {
     Button btnEdit, btnSave, btnBack, btnLogout;
 
     FirebaseAuth mAuth;
-    FirebaseDatabase database;
-    DatabaseReference reference;
+    FirebaseFirestore db;
 
     String userId;
 
@@ -48,8 +44,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Firebase init
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        reference = database.getReference("users");
+        db = FirebaseFirestore.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -59,25 +54,22 @@ public class ProfileActivity extends AppCompatActivity {
             String email = currentUser.getEmail();
             editTextEmail.setText(email);
 
-            // Ambil data user dari Realtime Database
-            reference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        String name = snapshot.child("name").getValue(String.class);
-                        String phone = snapshot.child("phone").getValue(String.class);
+            // Ambil data user dari Firestore
+            DocumentReference docRef = db.collection("users").document(userId);
+            docRef.get().addOnSuccessListener(document -> {
+                if (document.exists()) {
+                    String name = document.getString("name");
+                    String phone = document.getString("phone");
+                    String emailDb = document.getString("email");
 
-                        editTextName.setText(name);
-                        editTextPhone.setText(phone);
-                    } else {
-                        Toast.makeText(ProfileActivity.this, "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
-                    }
+                    editTextName.setText(name);
+                    editTextPhone.setText(phone);
+                    editTextEmail.setText(emailDb);
+                } else {
+                    Toast.makeText(ProfileActivity.this, "Data tidak ditemukan", Toast.LENGTH_SHORT).show();
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Toast.makeText(ProfileActivity.this, "Gagal mengambil data", Toast.LENGTH_SHORT).show();
-                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(ProfileActivity.this, "Gagal mengambil data", Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -90,11 +82,15 @@ public class ProfileActivity extends AppCompatActivity {
             String updatedPhone = editTextPhone.getText().toString();
 
             if (userId != null) {
-                DatabaseReference userRef = reference.child(userId);
-                userRef.child("name").setValue(updatedName);
-                userRef.child("phone").setValue(updatedPhone);
-                Toast.makeText(this, "Data berhasil diperbarui", Toast.LENGTH_SHORT).show();
-                setFieldsEnabled(false);
+                DocumentReference userRef = db.collection("users").document(userId);
+                userRef.update("name", updatedName, "phone", updatedPhone)
+                        .addOnSuccessListener(unused -> {
+                            Toast.makeText(this, "Data berhasil diperbarui", Toast.LENGTH_SHORT).show();
+                            setFieldsEnabled(false);
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Gagal memperbarui data", Toast.LENGTH_SHORT).show();
+                        });
             }
         });
 
@@ -113,7 +109,6 @@ public class ProfileActivity extends AppCompatActivity {
     private void setFieldsEnabled(boolean enabled) {
         editTextName.setEnabled(enabled);
         editTextPhone.setEnabled(enabled);
-        // Email tetap tidak bisa diedit
-        editTextEmail.setEnabled(false);
+        editTextEmail.setEnabled(false); // Email tetap tidak bisa diedit
     }
 }
